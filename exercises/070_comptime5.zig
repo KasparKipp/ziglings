@@ -120,15 +120,24 @@ fn isADuck(possible_duck: anytype) bool {
     //
     //     const has_increment = @hasDecl(Foo, "increment");
     //
-    // Please make sure MyType has both waddle() and quack()
+    // Please make sure MaybeDuck has both waddle() and quack()
     // methods:
-    const MyType = @TypeOf(possible_duck);
-    const walks_like_duck = ???;
-    const quacks_like_duck = ???;
+    const MaybeDuck = @TypeOf(possible_duck);
+    //@compileLog("MaybeDuck type: ", MaybeDuck);
+    return switch (MaybeDuck) {
+        Duct => false,
+        else => duck: {
+            possible_duck.quack();
+            break :duck true;
+        }
+    };
+    
+    //const walks_like_duck = @hasDecl(MaybeDuck, "waddle");
+    //const quacks_like_duck = @hasDecl(MaybeDuck, "quack");
 
-    const is_duck = walks_like_duck and quacks_like_duck;
+    //const is_duck = walks_like_duck and quacks_like_duck;
 
-    if (is_duck) {
+    //if (is_duck) {
         // We also call the quack() method here to prove that Zig
         // allows us to perform duck actions on anything
         // sufficiently duck-like.
@@ -138,8 +147,9 @@ fn isADuck(possible_duck: anytype) bool {
         // attempting to call the quack() method on a struct that
         // doesn't have it (like Duct) would result in a compile
         // error, not a runtime panic or crash!
-        possible_duck.quack();
-    }
+    //    possible_duck.quack();
+    //}
 
-    return is_duck;
+    //return is_duck;
+    
 }
